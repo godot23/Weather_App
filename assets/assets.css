@@ -1,0 +1,8 @@
+.card{
+    display: flex;
+    flex-direction: row;
+}
+
+header h1{
+    text-align: center;
+}
