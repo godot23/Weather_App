@@ -1,6 +1,7 @@
-.card{
+#weather-cards{
     display: flex;
-    /* flex-direction: row; */
+    position: relative;
+    left: 50px;
 }
 
 header h1{

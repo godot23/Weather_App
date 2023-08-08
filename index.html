@@ -12,6 +12,7 @@
         <h1> 5 Day Forecast</h1>
         <h2 class="day"></h2>
     </header>
+    <div id = "weather-cards">
     <div class="card" style="width: 18rem;">
         <div class="card-body">
           <h5 class="card-title" id = "title-today"></h5>
@@ -46,20 +47,21 @@
               <p class="card-text"  id = "weather4Days"></p>
             </div>
           </div>
+        </div>
       </div>
       <form>
         <div class="form-group">
           <label for="enterCity">City</label>
           <input type="citySearch" class="form-control" id="enterCity" aria-describedby="cityHelp" placeholder="Enter city">
         </div>
-        <button type="submit" class="btn btn-primary">Confirm</button>
+        <button type="submit" id = "confirm-button" class="btn btn-primary">Confirm</button>
       </form>
       <div class="d-grid gap-2" id = "historyButtons">
-        <!-- <button class="btn btn-primary" type="button">City 1</button>
-        <button class="btn btn-primary" type="button">City 2</button>
-        <button class="btn btn-primary" type="button">City 3</button>
-        <button class="btn btn-primary" type="button">City 4</button>
-        <button class="btn btn-primary" type="button">City 5</button> -->
+        <button class="btn btn-primary" id = "button-1" type="button">City 1</button>
+        <button class="btn btn-primary" id = "button-2" type="button">City 2</button>
+        <button class="btn btn-primary" id = "button-3" type="button">City 3</button>
+        <button class="btn btn-primary" id = "button-4" type="button">City 4</button>
+        <button class="btn btn-primary" id = "button-5" type="button">City 5</button>
       </div>
       <script
       src="https://cdn.jsdelivr.net/npm/dayjs@1.11.3/dayjs.min.js"

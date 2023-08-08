@@ -1,7 +1,7 @@
 let dateEntry = document.querySelector(".day");
 let confirmCity = document.querySelector(".btn");
 let cityField = document.querySelector("#enterCity");
-
+let bodyField = document.querySelector("body");
 let boxToday = document.querySelector("#weatherToday");
 let boxTomorrow = document.querySelector("#weatherTomorrow");
 let box2Days = document.querySelector("#weather2Days");
@@ -11,34 +11,63 @@ let todayTitle = document.querySelector("#title-today");
 let tomorrowTitle = document.querySelector("#title-tomorrow");
 let twoDayTitle = document.querySelector("#title-two-days");
 let threeDayTitle = document.querySelector("#title-three-days");
-let fourDayTitle = document.querySelector("#title-four-days")
+let fourDayTitle = document.querySelector("#title-four-days");
+let confirmButton = document.querySelector("#confirm-button");
+let historyButtons = document.querySelector("#historyButtons")
+let cityButton1 = document.querySelector("#button-1");
+let cityButton2 = document.querySelector("#button-2");
+let cityButton3 = document.querySelector("#button-3");
+let cityButton4 = document.querySelector("#button-4");
+let cityButton5 = document.querySelector("#button-5");
 ///event listener should wrap around all the fetch requests
 // add API key to keep it secure.
 let city;
+cityArray = JSON.parse((localStorage.getItem("cityArray"))) || [];
 
-confirmCity.addEventListener("click", function(event){
-    event.preventDefault();
-    city = cityField.value;
-    fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=2c06efa701ce6807a95b89f2e9f1e20f`)
+cityButton1.textContent = cityArray[0];
+cityButton2.textContent = cityArray[1];
+cityButton3.textContent = cityArray[2];
+cityButton4.textContent = cityArray[3];
+cityButton5.textContent = cityArray[4];
 
-            .then(response => response.json())
-            .then(cityData => {
-                let cityReturn = cityData[0];
-                console.log(cityReturn.lat);
-                console.log(cityReturn.lon);
+confirmButton.addEventListener("click", findWeather);
+historyButtons.addEventListener("click", getCityFromButton);
 
-                return fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${cityReturn.lat}&lon=${cityReturn.lon}&appid=2c06efa701ce6807a95b89f2e9f1e20f`)
-            })
+function findWeather(event){
+  event.preventDefault();
+      city = cityField.value;
+      renderForecast(city);
+}
+
+function getCityFromButton(event){
+  event.preventDefault();
+  if(event.target.matches("button")){
+    renderForecast(event.target.textContent);
+  }
+}
+
+function renderForecast(city){
+  fetch(`https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=5&appid=2c06efa701ce6807a95b89f2e9f1e20f`)
+
+  .then(response => response.json())
+  .then(cityData => {
+      let cityReturn = cityData[0];
+      console.log(cityReturn.lat);
+      console.log(cityReturn.lon);
+
+      return fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${cityReturn.lat}&lon=${cityReturn.lon}&appid=2c06efa701ce6807a95b89f2e9f1e20f`)
+  })
 
 
-            .then(response => response.json())
-            .then(data => {
+  .then(response => response.json())
+  .then(data => {
+      cityArray.unshift(city);
+      localStorage.setItem("cityArray", JSON.stringify(cityArray));
+      fillBoxes(data);
 
-                fillBoxes(data);
-            })
-            
-})
-
+      
+  })
+}
 
 function fillBoxes(data){
   fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=2c06efa701ce6807a95b89f2e9f1e20f`)
@@ -111,4 +140,11 @@ function fillBoxes(data){
     twoDayTitle.textContent = dayjs(dateTwoDays).format("dddd");
     threeDayTitle.textContent = dayjs(dateThreeDays).format("dddd");
     fourDayTitle.textContent = dayjs(dateFourDays).format("dddd");
+
+    cityButton1.textContent = cityArray[0];
+    cityButton2.textContent = cityArray[1];
+    cityButton3.textContent = cityArray[2];
+    cityButton4.textContent = cityArray[3];
+    cityButton5.textContent = cityArray[4];
+  
 }
